@@ -46,6 +46,7 @@ int main(int argc, char *argv[])
    Matrix input("input");
    input.read();
    int n = input.numRows();
+   int d = input.numCols();
 
    // In order to easily calculate distance, we are gonna transpose input
    // It will be used for calculating min distance.
@@ -92,8 +93,11 @@ int main(int argc, char *argv[])
             // Found the nearest center
             // double newX = newCenters.get(minC, 0) + input.get(i, 0)
             // Add to the current sum for center.
-            newCenters.set( minC, 0, newCenters.get(minC, 0) + input.get(i, 0) );
-            newCenters.set( minC, 1, newCenters.get(minC, 1) + input.get(i, 1) );
+            // newCenters.set( minC, 0, newCenters.get(minC, 0) + input.get(i, 0) );
+            // newCenters.set( minC, 1, newCenters.get(minC, 1) + input.get(i, 1) );
+            for( int j = 0; j<d; ++j) {
+               newCenters.set( minC, j, newCenters.get(minC, j) + input.get(i, j) );
+            }
 
             grouped[minC] += 1;
          }
@@ -114,8 +118,12 @@ int main(int argc, char *argv[])
                continue;   // After getting new centers, restart the process.
             }
             // Average out the newCenters
-            newCenters.set( i, 0, newCenters.get(i, 0) / grouped[i] );
-            newCenters.set( i, 1, newCenters.get(i, 1) / grouped[i] );
+            // newCenters.set( i, 0, newCenters.get(i, 0) / grouped[i] );
+            // newCenters.set( i, 1, newCenters.get(i, 1) / grouped[i] );
+            for (int j = 0; j < d; ++j)
+            {
+               newCenters.set( i, j, newCenters.get(i, j) / grouped[i] );
+            }
          }
 
          ++c;
@@ -128,10 +136,6 @@ int main(int argc, char *argv[])
       double minDist = centers.dist2();
       printf("K: %d  MinD: %.4f\n", k, minDist);
    }
-
-
-   
-
    return 0;
 }
 
@@ -140,14 +144,18 @@ int main(int argc, char *argv[])
 Matrix getCenters(int k, Matrix input) {
 
    ////////////////// CHANGE THIS FOR KMEANSP //////////////
-   Matrix c(k, 2, "Centers");
+   Matrix c(k, input.numCols(), "Centers");
    // Initialize Center points
    // With kmeans, initialize randomly from min/max in each dimension
-   double mix = input.minCol(0), max = input.maxCol(0);
-   c.randCol(0, mix, max);
-
-   double miy = input.minCol(1), may = input.maxCol(1);
-   c.randCol(1, miy, may);
+   // double mix = input.minCol(0), max = input.maxCol(0);
+   // c.randCol(0, mix, max);
+   // double miy = input.minCol(1), may = input.maxCol(1);
+   // c.randCol(1, miy, may);
+   for (int i = 0; i < input.numCols(); ++i)
+   {
+      double mix = input.minCol(i), max = input.maxCol(i);
+      c.randCol(i, mix, max);
+   }
 
    return c;
 }
