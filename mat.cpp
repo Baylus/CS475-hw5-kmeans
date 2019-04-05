@@ -163,7 +163,7 @@ void Matrix::allocate(int r, int c, std::string namex, bool isSubMatrix)
         if (maxc>=0) for (int i=0; i<maxr; i++) m[i] = new double [maxc];  // allocate if not a submatrix
     }
 
-    defined = false;
+    defined = true;
     submatrix = isSubMatrix;
     if (debug) printf("DEBUG(  allocate): name \"%s\", size %d X %d\n", name.c_str(), r, c);
 }

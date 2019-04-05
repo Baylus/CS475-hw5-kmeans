@@ -27,9 +27,8 @@ OBJS=\
 mat.o\
 rand.o
 
-all: 
-	make $(BIN)
-	make $(BIN)p
+# all: $(BIN)
+all: $(BIN) $(BIN)p
 
 $(BIN):	$(OBJS) $(BIN).o
 	$(CC) $(CFLAGS) $(OBJS) $(BIN).o $(LIBS) -o $(BIN)

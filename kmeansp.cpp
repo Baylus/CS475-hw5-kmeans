@@ -56,17 +56,6 @@ int main(int argc, char *argv[])
 
    for (int i = 0; i < t; ++i) {
       Matrix centers(getCenters(k, input));
-      ////////////////// CHANGE THIS FOR KMEANSP //////////////
-      // Matrix centers(k, 2, "centers");
-      // // Initialize Center points
-      // // With kmeans, initialize randomly from min/max in each dimension
-      // double mix = input.minCol(0), max = input.maxCol(0);
-      // centers.randCol(0, mix, max);
-
-      // double miy = input.minCol(1), may = input.maxCol(1);
-      // centers.randCol(1, miy, may);
-
-      // int num_changed = k; // The number of points that were changed on this iteration
 
       Matrix newCenters(centers);
       int c = 1;
@@ -141,13 +130,7 @@ Matrix getCenters(int k, Matrix input) {
 
    ////////////////// CHANGE THIS FOR KMEANSP //////////////
    Matrix c(k, 2, "Centers");
-   // Initialize Center points
-   // With kmeans, initialize randomly from min/max in each dimension
-   double mix = input.minCol(0), max = input.maxCol(0);
-   c.randCol(0, mix, max);
-
-   double miy = input.minCol(1), may = input.maxCol(1);
-   c.randCol(1, miy, may);
+   input.sample(c);
 
    return c;
 }
